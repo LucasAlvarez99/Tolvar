@@ -3,934 +3,1405 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tolosa Soluciones - Servicios Integrales para tu Hogar y Empresa</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>TOLVAR Ingeniería de Instalaciones | Gas, Electricidad y Sanitarias en Córdoba</title>
+    <meta name="description" content="Empresa de instalaciones de gas, electricidad y sanitarias en Córdoba. Gasista y electricista matriculado. Especialistas en obras nuevas, proyectos arquitectónicos y obras integrales.">
+    <meta name="keywords" content="instalaciones de gas Córdoba, gasista matriculado Córdoba, electricista matriculado Córdoba, instalaciones sanitarias Córdoba, obras de instalaciones Córdoba, instalaciones para obra nueva Córdoba, contratista de instalaciones Córdoba">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --primary: #2563eb;
-            --secondary: #1e40af;
-            --accent: #0ea5e9;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --water: #0284c7;
+            --navy: #1F3A5F;
+            --navy-dark: #152d4a;
+            --navy-light: #2a4d7a;
+            --gray: #6B7280;
+            --gray-light: #9CA3AF;
+            --gray-bg: #F3F4F6;
+            --white: #FFFFFF;
+            --off-white: #F9FAFB;
+            --border: #E5E7EB;
+            --accent: #2563EB;
+            --accent-light: #DBEAFE;
         }
+
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'DM Sans', sans-serif;
-            color: var(--dark);
+            font-family: 'Open Sans', sans-serif;
+            color: #1F2937;
+            background: var(--white);
             overflow-x: hidden;
-            background: var(--light);
         }
 
-        /* Smooth scroll */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Header */
+        /* ── HEADER ── */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
+            background: var(--navy-dark);
             z-index: 1000;
-            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            transition: box-shadow 0.3s;
         }
-
-        header.scrolled {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
+        header.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,0.25); }
 
         nav {
-            max-width: 1400px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 1.2rem 2rem;
+            padding: 0 2rem;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* LOGO */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-mark {
+            width: 44px;
+            height: 44px;
+            background: var(--navy-light);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .logo-mark svg { width: 26px; height: 26px; }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .logo-text .brand {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1.35rem;
+            letter-spacing: 3px;
+            color: var(--white);
+        }
+
+        .logo-text .tagline {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 0.58rem;
+            letter-spacing: 1.5px;
+            color: rgba(255,255,255,0.55);
+            text-transform: uppercase;
+            margin-top: 3px;
+        }
+
+        .nav-center {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .nav-center a {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 0.8rem;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .nav-center a:hover { color: var(--white); }
+
+        .nav-phone {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--white);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .nav-phone span { opacity: 0.6; font-size: 0.75rem; }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .hamburger div { width: 24px; height: 2px; background: white; border-radius: 2px; transition: 0.3s; }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            background: var(--navy-dark);
+            display: flex;
+            align-items: center;
+            padding-top: 70px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-grid-bg {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .hero-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%);
+            right: -100px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .hero-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .hero-eyebrow {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .hero-eyebrow::before {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 1px;
+            background: rgba(255,255,255,0.3);
+        }
+
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 3.4rem;
+            line-height: 1.1;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: rgba(255,255,255,0.35);
+        }
+
+        .hero-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            color: rgba(255,255,255,0.65);
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-services-line {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-services-line span {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.78rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            padding: 0 14px;
+            border-right: 1px solid rgba(255,255,255,0.15);
+        }
+        .hero-services-line span:first-child { padding-left: 0; }
+        .hero-services-line span:last-child { border-right: none; }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.82rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 0.9rem 2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.25s;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--navy-dark);
+        }
+        .btn-primary:hover {
+            background: rgba(255,255,255,0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 1.5px solid rgba(255,255,255,0.3);
+        }
+        .btn-outline:hover {
+            border-color: rgba(255,255,255,0.7);
+            transform: translateY(-2px);
+        }
+
+        /* Hero right panel */
+        .hero-panel {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .hero-panel-header {
+            background: rgba(255,255,255,0.06);
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .hero-panel-header p {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .hero-panel-body { padding: 1.5rem; }
+
+        .hero-feat {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .hero-feat:last-child { border-bottom: none; padding-bottom: 0; }
+        .hero-feat:first-child { padding-top: 0; }
+
+        .hero-feat-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--navy-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .hero-feat-icon svg { width: 20px; height: 20px; color: rgba(255,255,255,0.7); }
+
+        .hero-feat h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--white);
+            margin-bottom: 2px;
+        }
+        .hero-feat p {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* ── SECTIONS GENERAL ── */
+        .section {
+            padding: 6rem 2rem;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.68rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-label::before {
+            content: '';
+            display: block;
+            width: 24px;
+            height: 1.5px;
+            background: var(--gray-light);
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            color: var(--navy);
+            line-height: 1.15;
+            margin-bottom: 1rem;
+        }
+
+        .section-sub {
+            font-size: 1rem;
+            color: var(--gray);
+            line-height: 1.7;
+            max-width: 600px;
+        }
+
+        /* ── QUIÉNES ── */
+        .audience { background: var(--off-white); }
+
+        .audience-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 3.5rem;
+        }
+
+        .audience-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: all 0.25s;
+        }
+        .audience-card:hover {
+            border-color: var(--navy);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(31,58,95,0.1);
+        }
+
+        .audience-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--navy);
+            border-radius: 12px;
+            margin: 0 auto 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .audience-icon svg { width: 28px; height: 28px; color: white; }
+
+        .audience-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--navy);
+            margin-bottom: 0.4rem;
+        }
+        .audience-card p {
+            font-size: 0.82rem;
+            color: var(--gray);
+            line-height: 1.5;
+        }
+
+        .audience-note {
+            margin-top: 3rem;
+            padding: 1.5rem 2rem;
+            background: var(--accent-light);
+            border-left: 4px solid var(--navy);
+            border-radius: 0 8px 8px 0;
+        }
+        .audience-note p {
+            font-size: 0.9rem;
+            color: var(--navy);
+            line-height: 1.7;
+        }
+
+        /* ── SERVICIOS ── */
+        .services { background: var(--white); }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 3.5rem;
+        }
+
+        .service-card {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+        .service-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--navy);
+            transition: width 0.3s;
+        }
+        .service-card:hover::after { width: 100%; }
+        .service-card:hover {
+            box-shadow: 0 8px 32px rgba(31,58,95,0.1);
+            transform: translateY(-3px);
+        }
+
+        .service-num {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: var(--gray-light);
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--navy);
+            margin-bottom: 0.7rem;
+            line-height: 1.3;
+        }
+
+        .service-card p {
+            font-size: 0.85rem;
+            color: var(--gray);
+            line-height: 1.65;
+        }
+
+        /* service card with full color */
+        .service-card.featured {
+            background: var(--navy);
+            border-color: var(--navy);
+        }
+        .service-card.featured .service-num,
+        .service-card.featured h3,
+        .service-card.featured p { color: rgba(255,255,255,0.85); }
+        .service-card.featured h3 { color: var(--white); }
+        .service-card.featured::after { background: rgba(255,255,255,0.3); }
+
+        /* ── PROCESO ── */
+        .process { background: var(--off-white); }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0;
+            margin-top: 3.5rem;
+            position: relative;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 28px;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: var(--border);
+            z-index: 0;
+        }
+
+        .process-step {
+            text-align: center;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-num {
+            width: 56px;
+            height: 56px;
+            background: var(--white);
+            border: 2px solid var(--navy);
+            border-radius: 50%;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--navy);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.2rem;
+        }
+
+        .process-step:hover .step-num {
+            background: var(--navy);
+            color: white;
+            transition: all 0.25s;
+        }
+
+        .process-step h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .process-step p {
+            font-size: 0.78rem;
+            color: var(--gray);
+            line-height: 1.55;
+        }
+
+        /* ── EMPRESA ── */
+        .empresa { background: var(--white); }
+
+        .empresa-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: start;
+            margin-top: 1rem;
+        }
+
+        .empresa-text p {
+            font-size: 0.95rem;
+            color: var(--gray);
+            line-height: 1.85;
+            margin-bottom: 1.5rem;
+        }
+
+        .badges {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .badge {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--navy);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .badge span {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .empresa-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .stat-box {
+            background: var(--navy);
+            border-radius: 12px;
+            padding: 2rem;
+            color: white;
+        }
+
+        .stat-box.light {
+            background: var(--off-white);
+            border: 1px solid var(--border);
+        }
+
+        .stat-box h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 2.2rem;
+            color: var(--white);
+            margin-bottom: 0.3rem;
+        }
+        .stat-box.light h3 { color: var(--navy); }
+
+        .stat-box p {
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.6);
+        }
+        .stat-box.light p { color: var(--gray); }
+
+        .stat-box .stat-label {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.7rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 0.5rem;
+        }
+        .stat-box.light .stat-label { color: var(--gray-light); }
+
+        /* ── CONTACTO ── */
+        .contacto { background: var(--off-white); }
+
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 4rem;
+            align-items: start;
+            margin-top: 3.5rem;
+        }
+
+        .contact-left h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+        }
+        .contact-left p {
+            font-size: 0.88rem;
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+        }
+
+        .contact-info-item .ci-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--navy);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .contact-info-item .ci-icon svg { width: 18px; height: 18px; color: white; }
+
+        .contact-info-item h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            color: var(--gray);
+            margin-bottom: 2px;
+        }
+        .contact-info-item p {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--navy);
+            margin: 0;
+        }
+
+        .contact-form-wrap {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+        }
+
+        .contact-form-wrap h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--navy);
+            margin-bottom: 0.4rem;
+        }
+
+        .contact-form-wrap .form-intro {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.72rem;
+            letter-spacing: 0.5px;
+            color: var(--navy);
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-family: 'Open Sans', sans-serif;
+            color: #1F2937;
+            background: var(--white);
+            transition: border-color 0.2s;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--navy);
+        }
+
+        .form-group textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--navy);
+            color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.82rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.25s;
+            margin-top: 0.5rem;
+        }
+        .submit-btn:hover {
+            background: var(--navy-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(31,58,95,0.25);
+        }
+
+        .success-msg {
+            display: none;
+            margin-top: 1rem;
+            padding: 0.9rem 1rem;
+            background: #ECFDF5;
+            border: 1px solid #6EE7B7;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #065F46;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+        .success-msg.show { display: block; }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--navy-dark);
+            padding: 3rem 2rem 2rem;
+        }
+
+        .footer-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 3rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .footer-brand .logo-text .brand { font-size: 1.1rem; }
+
+        .footer-brand p {
+            font-size: 0.83rem;
+            color: rgba(255,255,255,0.45);
+            margin-top: 1rem;
+            line-height: 1.7;
+        }
+
+        .footer-col h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 1rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .footer-col ul li {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .footer-col ul li a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-col ul li a:hover { color: white; }
+
+        .footer-bottom {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            color: white;
-            text-decoration: none;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2rem;
-            letter-spacing: 2px;
-            opacity: 0;
-            animation: fadeInDown 0.8s ease forwards;
+        .footer-bottom p {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.3);
         }
 
-        .logo-icon {
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            border-radius: 12px;
-            transform: rotate(-5deg);
-            transition: transform 0.3s ease;
+        /* ── WHATSAPP FLOAT ── */
+        .wa-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 999;
         }
 
-        .logo:hover .logo-icon {
-            transform: rotate(0deg) scale(1.1);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-            opacity: 0;
-            animation: fadeInDown 0.8s ease 0.2s forwards;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            position: relative;
-            overflow: hidden;
-            padding-top: 80px;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 150%;
-            height: 150%;
-            background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
-            animation: pulse 8s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.3; }
-        }
-
-        .hero-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-text h1 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 5rem;
-            color: white;
-            line-height: 1;
-            margin-bottom: 1.5rem;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease 0.3s forwards;
-        }
-
-        .hero-text h1 span {
-            background: linear-gradient(135deg, var(--accent), var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-text p {
-            font-size: 1.3rem;
-            color: #cbd5e1;
-            margin-bottom: 2.5rem;
-            line-height: 1.8;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease 0.5s forwards;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease 0.7s forwards;
-        }
-
-        .btn {
-            padding: 1.2rem 2.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            display: inline-block;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: white;
-            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(37, 99, 235, 0.4);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: white;
-            border: 2px solid var(--accent);
-        }
-
-        .btn-secondary:hover {
-            background: var(--accent);
-            transform: translateY(-3px);
-        }
-
-        .hero-visual {
-            position: relative;
-            opacity: 0;
-            animation: fadeInRight 1s ease 0.5s forwards;
-        }
-
-        .floating-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 2rem;
-            margin: 1rem 0;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .floating-card:nth-child(2) {
-            animation-delay: 0.5s;
-        }
-
-        .floating-card:nth-child(3) {
-            animation-delay: 1s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .floating-card h3 {
-            color: var(--accent);
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            font-family: 'Bebas Neue', sans-serif;
-            letter-spacing: 1px;
-        }
-
-        .floating-card p {
-            color: #cbd5e1;
-            font-size: 0.95rem;
-        }
-
-        /* Services Section */
-        .services {
-            padding: 8rem 2rem;
-            background: white;
-            position: relative;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 5rem;
-        }
-
-        .section-title h2 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 4rem;
-            color: var(--dark);
-            margin-bottom: 1rem;
-            letter-spacing: 2px;
-        }
-
-        .section-title p {
-            font-size: 1.3rem;
-            color: var(--gray);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .services-grid {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 3rem;
-        }
-
-        .service-card {
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            border-radius: 30px;
-            padding: 3rem;
-            transition: all 0.4s ease;
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(50px);
-        }
-
-        .service-card.animate {
-            animation: fadeInUp 0.6s ease forwards;
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 0;
-        }
-
-        .service-card:hover::before {
-            opacity: 0.05;
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent);
-            box-shadow: 0 20px 60px rgba(37, 99, 235, 0.15);
-        }
-
-        .service-card > * {
-            position: relative;
-            z-index: 1;
-        }
-
-        .service-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            border-radius: 20px;
+        .wa-btn {
+            width: 58px;
+            height: 58px;
+            background: #25D366;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 2rem;
-            font-size: 2.5rem;
-            transform: rotate(-5deg);
-            transition: transform 0.4s ease;
+            box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+            text-decoration: none;
+            transition: transform 0.25s;
         }
+        .wa-btn:hover { transform: scale(1.1); }
+        .wa-btn svg { width: 30px; height: 30px; color: white; }
 
-        .service-card:hover .service-icon {
-            transform: rotate(0deg) scale(1.1);
-        }
-
-        .service-card h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2rem;
-            color: var(--dark);
-            margin-bottom: 1.5rem;
-            letter-spacing: 1px;
-        }
-
-        .service-card ul {
-            list-style: none;
-            margin-bottom: 1.5rem;
-        }
-
-        .service-card li {
-            padding: 0.8rem 0;
-            color: var(--gray);
-            font-size: 1.05rem;
-            display: flex;
-            align-items: start;
-            gap: 1rem;
-        }
-
-        .service-card li::before {
-            content: '✓';
-            color: var(--accent);
-            font-weight: bold;
-            font-size: 1.3rem;
-            flex-shrink: 0;
-        }
-
-        /* Trust Section */
-        .trust {
-            padding: 6rem 2rem;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            text-align: center;
-        }
-
-        .trust-content {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .trust h2 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 3.5rem;
-            color: white;
-            margin-bottom: 2rem;
-            letter-spacing: 2px;
-        }
-
-        .trust p {
-            font-size: 1.5rem;
-            color: #cbd5e1;
-            font-style: italic;
-            line-height: 1.8;
-        }
-
-        .trust .highlight {
-            color: var(--accent);
-            font-weight: 700;
-        }
-
-        /* Contact Section */
-        .contact {
-            padding: 8rem 2rem;
-            background: white;
-            position: relative;
-        }
-
-        .contact-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5rem;
-            align-items: start;
-        }
-
-        .contact-info h2 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 4rem;
-            color: var(--dark);
-            margin-bottom: 2rem;
-            letter-spacing: 2px;
-        }
-
-        .contact-info p {
-            font-size: 1.2rem;
-            color: var(--gray);
-            margin-bottom: 3rem;
-            line-height: 1.8;
-        }
-
-        .contact-method {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            padding: 2rem;
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            border-radius: 20px;
-            margin-bottom: 1.5rem;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .contact-method:hover {
-            border-color: var(--accent);
-            transform: translateX(10px);
-        }
-
-        .contact-method-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            flex-shrink: 0;
-        }
-
-        .contact-method-text h4 {
-            font-size: 1.1rem;
-            color: var(--dark);
-            margin-bottom: 0.3rem;
-            font-weight: 700;
-        }
-
-        .contact-method-text p {
-            font-size: 1.3rem;
-            color: var(--primary);
-            font-weight: 700;
-            margin: 0;
-        }
-
-        /* Contact Form */
-        .contact-form {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            padding: 3rem;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .contact-form h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2.5rem;
-            color: white;
-            margin-bottom: 2rem;
-            letter-spacing: 1px;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            color: #cbd5e1;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            color: white;
-            font-size: 1rem;
-            font-family: 'DM Sans', sans-serif;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .form-group textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: #64748b;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 1.3rem;
-            background: linear-gradient(135deg, var(--accent), var(--primary));
-            color: white;
-            border: none;
-            border-radius: 15px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'DM Sans', sans-serif;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(37, 99, 235, 0.4);
-        }
-
-        /* Footer */
-        footer {
-            background: #0f172a;
-            color: white;
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-
-        footer p {
-            color: #cbd5e1;
-            font-size: 1rem;
-        }
-
-        /* Animations */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* Responsive */
+        /* ── RESPONSIVE ── */
         @media (max-width: 1024px) {
-            .hero-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .hero-text h1 {
-                font-size: 4rem;
-            }
-
-            .cta-buttons {
-                justify-content: center;
-            }
-
-            .hero-visual {
-                margin-top: 3rem;
-            }
-
-            .contact-container {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
+            .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+            .hero h1 { font-size: 2.8rem; }
+            .audience-grid { grid-template-columns: repeat(2, 1fr); }
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .process-steps { grid-template-columns: 1fr; gap: 2rem; }
+            .process-steps::before { display: none; }
+            .empresa-layout { grid-template-columns: 1fr; gap: 3rem; }
+            .contact-layout { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr; gap: 2rem; }
         }
 
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero-text h1 {
-                font-size: 3rem;
-            }
-
-            .hero-text p {
-                font-size: 1.1rem;
-            }
-
-            .section-title h2 {
-                font-size: 3rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-                text-align: center;
-            }
-        }
-
-        /* Success Message */
-        .success-message {
-            display: none;
-            padding: 1rem;
-            background: rgba(34, 197, 94, 0.1);
-            border: 2px solid #22c55e;
-            border-radius: 15px;
-            color: #22c55e;
-            margin-top: 1rem;
-            text-align: center;
-        }
-
-        .success-message.show {
-            display: block;
-            animation: fadeInUp 0.5s ease;
+            .nav-center { display: none; }
+            .nav-phone { font-size: 0.8rem; }
+            .hamburger { display: flex; }
+            .hero h1 { font-size: 2.3rem; }
+            .section-title { font-size: 2rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            .audience-grid { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .badges { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header id="header">
-        <nav>
-            <a href="#" class="logo">
-                <div class="logo-icon">
-                    <span style="color: white; font-size: 1.8rem;">🔧</span>
-                </div>
-                <span>TOLOSA SOLUCIONES</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="#servicios">Servicios</a></li>
-                <li><a href="#contacto">Contacto</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1>
-                    Servicios <span>Integrales</span><br>
-                    para tu Hogar<br>
-                    y Empresa
-                </h1>
-                <p>
-                    ¿Necesitás ayuda con el mantenimiento o una obra nueva? ¡Nosotros nos encargamos de todo! Con responsabilidad, rapidez y calidad.
-                </p>
-                <div class="cta-buttons">
-                    <a href="#contacto" class="btn btn-primary">Solicitar Presupuesto</a>
-                    <a href="#servicios" class="btn btn-secondary">Ver Servicios</a>
-                </div>
+<!-- HEADER -->
+<header id="mainHeader">
+    <nav>
+        <a href="#inicio" class="logo">
+            <div class="logo-mark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
             </div>
-            <div class="hero-visual">
-                <div class="floating-card">
-                    <h3>💧 Agua y Piscinas</h3>
-                    <p>Especialistas en perforaciones, mantenimiento y plomería integral</p>
+            <div class="logo-text">
+                <span class="brand">TOLVAR</span>
+                <span class="tagline">Ingeniería de Instalaciones S.A.S.</span>
+            </div>
+        </a>
+
+        <div class="nav-center">
+            <a href="#inicio">Inicio</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#proceso">Proceso</a>
+            <a href="#empresa">Empresa</a>
+            <a href="#contacto">Contacto</a>
+        </div>
+
+        <div class="nav-phone">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6 19.79 19.79 0 0 1 1.61 5c-.06-1.1.83-2.03 1.93-2H6.5a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.1a16 16 0 0 0 6 6l.85-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 17.5l.42-.58z"/></svg>
+            351 861 4462
+        </div>
+
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div><div></div><div></div>
+        </div>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-inner">
+        <div>
+            <p class="hero-eyebrow">Córdoba Capital e Interior</p>
+            <h1>
+                TOLVAR<br>
+                Ingeniería de<br>
+                <em>Instalaciones</em>
+            </h1>
+            <p class="hero-subtitle">Obras Integrales Técnicas en Córdoba y el Interior</p>
+            <div class="hero-services-line">
+                <span>Gas</span>
+                <span>Electricidad</span>
+                <span>Sanitarias</span>
+                <span>Obras Completas</span>
+            </div>
+            <div class="hero-cta">
+                <a href="#contacto" class="btn btn-primary">Solicitar Presupuesto</a>
+                <a href="#servicios" class="btn btn-outline">Ver Servicios</a>
+            </div>
+        </div>
+
+        <div class="hero-panel">
+            <div class="hero-panel-header">
+                <p>Capacidades técnicas</p>
+            </div>
+            <div class="hero-panel-body">
+                <div class="hero-feat">
+                    <div class="hero-feat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10"/><circle cx="12" cy="12" r="3"/></svg>
+                    </div>
+                    <div>
+                        <h4>Gasista Matriculado</h4>
+                        <p>Instalaciones certificadas bajo normativa vigente</p>
+                    </div>
                 </div>
-                <div class="floating-card">
-                    <h3>🏠 Renovación Total</h3>
-                    <p>Desde jardinería hasta construcciones completas</p>
+                <div class="hero-feat">
+                    <div class="hero-feat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    </div>
+                    <div>
+                        <h4>Electricista Matriculado</h4>
+                        <p>Instalaciones eléctricas domiciliarias y de obra</p>
+                    </div>
                 </div>
-                <div class="floating-card">
-                    <h3>✨ Calidad Garantizada</h3>
-                    <p>Presupuestos sin cargo y atención personalizada</p>
+                <div class="hero-feat">
+                    <div class="hero-feat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <div>
+                        <h4>Obras Integrales</h4>
+                        <p>Coordinación con arquitectos y dirección de obra</p>
+                    </div>
+                </div>
+                <div class="hero-feat">
+                    <div class="hero-feat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+                    </div>
+                    <div>
+                        <h4>Facturación</h4>
+                        <p>A empresas, desarrollistas y particulares</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Services Section -->
-    <section class="services" id="servicios">
-        <div class="section-title">
-            <h2>Nuestros Servicios</h2>
-            <p>Soluciones profesionales adaptadas a tus necesidades</p>
+<!-- A QUIÉNES ESTÁ DIRIGIDO -->
+<section class="section audience" id="quienes">
+    <div class="container">
+        <p class="section-label">A quiénes está dirigido</p>
+        <h2 class="section-title">Soluciones Técnicas<br>para Obras y Proyectos</h2>
+        <div class="audience-grid">
+            <div class="audience-card">
+                <div class="audience-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <h3>Arquitectos</h3>
+                <p>Coordinación técnica en todas las etapas de proyecto</p>
+            </div>
+            <div class="audience-card">
+                <div class="audience-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                </div>
+                <h3>Desarrollistas</h3>
+                <p>Ejecución integral para emprendimientos residenciales y comerciales</p>
+            </div>
+            <div class="audience-card">
+                <div class="audience-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <h3>Inmobiliarias</h3>
+                <p>Instalaciones para habilitación y entrega de propiedades</p>
+            </div>
+            <div class="audience-card">
+                <div class="audience-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <h3>Clientes Particulares</h3>
+                <p>Obra nueva, ampliaciones y remodelaciones</p>
+            </div>
         </div>
+        <div class="audience-note">
+            <p>Trabajamos en coordinación con dirección de obra, arquitectos y desarrollistas, garantizando ejecución técnica profesional y cumplimiento de normativas vigentes en cada proyecto.</p>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICIOS -->
+<section class="section services" id="servicios">
+    <div class="container">
+        <p class="section-label">Nuestros Servicios</p>
+        <h2 class="section-title">Instalaciones Técnicas<br>Profesionales</h2>
+        <p class="section-sub">Ejecutamos obras de instalaciones bajo estándares profesionales, normativa vigente y personal matriculado.</p>
+
         <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon">💧</div>
-                <h3>Especialistas en Agua y Piscinas</h3>
-                <ul>
-                    <li>Perforaciones de pozos de agua (Extracción garantizada)</li>
-                    <li>Mantenimiento de piscinas (Limpieza, filtrado y puesta a punto)</li>
-                    <li>Plomería integral (Arreglo de fugas, instalaciones y termotanques)</li>
-                </ul>
+            <div class="service-card featured">
+                <p class="service-num">01</p>
+                <h3>Instalaciones de Gas Matriculado</h3>
+                <p>Instalaciones completas de gas para obras nuevas y remodelaciones. Pruebas de hermeticidad, adecuaciones y habilitaciones comerciales y residenciales cumpliendo normativa vigente.</p>
             </div>
-
             <div class="service-card">
-                <div class="service-icon">🏠</div>
-                <h3>Cuidado de Espacios y Renovación</h3>
-                <ul>
-                    <li>Jardinería (Corte de césped, poda y diseño de paisajes)</li>
-                    <li>Mantenimiento general (Electricidad básica, pintura y arreglos varios)</li>
-                    <li>Construcciones en general (Desde pequeñas reformas hasta obras desde cero)</li>
-                </ul>
+                <p class="service-num">02</p>
+                <h3>Instalaciones Eléctricas de Obra</h3>
+                <p>Instalaciones eléctricas domiciliarias y de obra según planos. Tableros eléctricos, ampliaciones, circuitos y adecuaciones técnicas para viviendas, locales y proyectos arquitectónicos.</p>
+            </div>
+            <div class="service-card">
+                <p class="service-num">03</p>
+                <h3>Instalaciones Sanitarias Integrales</h3>
+                <p>Sistemas de agua fría, caliente, desagües y conexiones sanitarias completas. Ejecución eficiente y cumplimiento técnico en obras nuevas y remodelaciones.</p>
+            </div>
+            <div class="service-card">
+                <p class="service-num">04</p>
+                <h3>Obras Completas de Instalaciones</h3>
+                <p>Gestión integral de todas las instalaciones en una sola obra. Coordinación con arquitectos y dirección de obra para proyectos residenciales y comerciales.</p>
+            </div>
+            <div class="service-card">
+                <p class="service-num">05</p>
+                <h3>Parquización y Exteriores</h3>
+                <p>Trabajos exteriores técnicos, parquización y paisajismo complementario a obras de construcción. Soluciones integrales para entrega de proyectos completos.</p>
+            </div>
+            <div class="service-card" style="background: var(--off-white); display: flex; align-items: center; justify-content: center; text-align: center; padding: 2.5rem;">
+                <div>
+                    <p style="font-family: Montserrat; font-weight: 700; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); margin-bottom: 0.8rem;">¿Necesitás más información?</p>
+                    <a href="#contacto" class="btn btn-primary" style="background: var(--navy); color: white; font-size: 0.75rem; padding: 0.8rem 1.5rem;">Solicitar Presupuesto</a>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Trust Section -->
-    <section class="trust">
-        <div class="trust-content">
-            <h2>Tu Tranquilidad es Nuestro Trabajo</h2>
-            <p>
-                <span class="highlight">Presupuestos sin cargo</span> y <span class="highlight">atención personalizada.</span> Trabajamos con compromiso para brindarte las mejores soluciones.
-            </p>
+<!-- PROCESO -->
+<section class="section process" id="proceso">
+    <div class="container">
+        <p class="section-label">Proceso de Trabajo</p>
+        <h2 class="section-title">Cómo Trabajamos<br>en Obra</h2>
+        <p class="section-sub">Un proceso profesional, coordinado y documentado en cada etapa del proyecto.</p>
+
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-num">01</div>
+                <h4>Análisis del Proyecto</h4>
+                <p>Revisión de planos, requerimientos técnicos y alcance de obra.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-num">02</div>
+                <h4>Presupuesto Profesional</h4>
+                <p>Cotización detallada acorde a normativa y necesidades del proyecto.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-num">03</div>
+                <h4>Planificación y Coordinación</h4>
+                <p>Organización junto a arquitectos y dirección de obra.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-num">04</div>
+                <h4>Ejecución Técnica</h4>
+                <p>Instalaciones bajo estándares profesionales y supervisión constante.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-num">05</div>
+                <h4>Control y Entrega</h4>
+                <p>Verificación final, pruebas de funcionamiento y entrega técnica.</p>
+            </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Contact Section -->
-    <section class="contact" id="contacto">
-        <div class="contact-container">
-            <div class="contact-info">
-                <h2>Contacto Directo</h2>
-                <p>
-                    Si querés coordinar una visita o pedir un presupuesto, escribinos o llamanos. Estamos para ayudarte.
-                </p>
+<!-- EMPRESA -->
+<section class="section empresa" id="empresa">
+    <div class="container">
+        <div class="empresa-layout">
+            <div>
+                <p class="section-label">Sobre la Empresa</p>
+                <h2 class="section-title">TOLVAR Ingeniería<br>de Instalaciones</h2>
+                <div class="empresa-text">
+                    <p>TOLVAR Ingeniería de Instalaciones S.A.S. es una empresa especializada en instalaciones integrales para obras residenciales y comerciales. Contamos con personal matriculado en gas y electricidad, ofreciendo soluciones técnicas profesionales para obras nuevas, remodelaciones y proyectos arquitectónicos en Córdoba Capital e Interior.</p>
+                    <p>Trabajamos en estrecha coordinación con arquitectos, desarrollistas y empresas constructoras, garantizando ejecución técnica de calidad, cumplimiento normativo y tiempos de obra.</p>
+                </div>
+                <div class="badges">
+                    <div class="badge">
+                        <div class="badge-dot"></div>
+                        <span>Gasista Matriculado</span>
+                    </div>
+                    <div class="badge">
+                        <div class="badge-dot"></div>
+                        <span>Electricista Matriculado</span>
+                    </div>
+                    <div class="badge">
+                        <div class="badge-dot"></div>
+                        <span>Facturación a Empresas</span>
+                    </div>
+                    <div class="badge">
+                        <div class="badge-dot"></div>
+                        <span>Obras Completas</span>
+                    </div>
+                </div>
+            </div>
 
-                <div class="contact-method">
-                    <div class="contact-method-icon">📱</div>
-                    <div class="contact-method-text">
+            <div class="empresa-stats">
+                <div class="stat-box">
+                    <p class="stat-label">Especialidad</p>
+                    <h3>Gas</h3>
+                    <p>Matriculado y habilitado bajo normativa</p>
+                </div>
+                <div class="stat-box light">
+                    <p class="stat-label">Especialidad</p>
+                    <h3>Elec.</h3>
+                    <p>Domiciliaria y de obra completa</p>
+                </div>
+                <div class="stat-box light">
+                    <p class="stat-label">Cobertura</p>
+                    <h3>Cba.</h3>
+                    <p>Capital e interior de Córdoba</p>
+                </div>
+                <div class="stat-box">
+                    <p class="stat-label">Servicio</p>
+                    <h3>360°</h3>
+                    <p>Instalaciones integrales en obra</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="section contacto" id="contacto">
+    <div class="container">
+        <p class="section-label">Contacto</p>
+        <h2 class="section-title">Solicitar Presupuesto<br>de Obra</h2>
+
+        <div class="contact-layout">
+            <div class="contact-left">
+                <h3>Contacto Directo</h3>
+                <p>Coordinamos visitas técnicas, revisamos planos y elaboramos presupuestos profesionales sin cargo.</p>
+
+                <div class="contact-info-item">
+                    <div class="ci-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6 19.79 19.79 0 0 1 1.61 5c-.06-1.1.83-2.03 1.93-2H6.5a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.1a16 16 0 0 0 6 6l.85-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 17.5l.42-.58z"/></svg>
+                    </div>
+                    <div>
                         <h4>Teléfono / WhatsApp</h4>
-                        <p>3518 07-1422</p>
+                        <p>351 861 4462</p>
                     </div>
                 </div>
 
-                <div class="contact-method">
-                    <div class="contact-method-icon">💬</div>
-                    <div class="contact-method-text">
-                        <h4>Mensaje Directo</h4>
-                        <p>WhatsApp disponible 24/7</p>
+                <div class="contact-info-item">
+                    <div class="ci-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    </div>
+                    <div>
+                        <h4>Zona de Trabajo</h4>
+                        <p>Córdoba Capital e Interior</p>
                     </div>
                 </div>
             </div>
 
-            <div class="contact-form">
-                <h3>Envíanos tu Consulta</h3>
+            <div class="contact-form-wrap">
+                <h3>Solicitar Presupuesto de Obra</h3>
+                <p class="form-intro">Completá el formulario y nos comunicamos a la brevedad.</p>
                 <form id="contactForm">
-                    <div class="form-group">
-                        <label for="name">Nombre Completo</label>
-                        <input type="text" id="name" name="name" placeholder="Tu nombre" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" placeholder="Tu nombre completo" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="tel" id="phone" placeholder="351 000 0000" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tipo de Obra</label>
+                            <select id="tipoObra">
+                                <option value="">Seleccionar...</option>
+                                <option>Obra nueva residencial</option>
+                                <option>Obra nueva comercial</option>
+                                <option>Remodelación</option>
+                                <option>Proyecto arquitectónico</option>
+                                <option>Desarrollo inmobiliario</option>
+                                <option>Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Ubicación</label>
+                            <input type="text" id="ubicacion" placeholder="Barrio / Localidad" required>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="phone">Teléfono</label>
-                        <input type="tel" id="phone" name="phone" placeholder="Tu número de teléfono" required>
+                        <label>Mensaje</label>
+                        <textarea id="mensaje" placeholder="Describí brevemente el proyecto o consulta..." required></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email (opcional)</label>
-                        <input type="email" id="email" name="email" placeholder="tu@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="service">Servicio de Interés</label>
-                        <input type="text" id="service" name="service" placeholder="Ej: Mantenimiento de piscina" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Mensaje</label>
-                        <textarea id="message" name="message" placeholder="Contanos qué necesitás..." required></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Enviar Consulta</button>
-                    <div class="success-message" id="successMessage">
-                        ✓ ¡Mensaje enviado! Te contactaremos pronto.
-                    </div>
+                    <button type="submit" class="submit-btn">Solicitar Presupuesto de Obra</button>
+                    <div class="success-msg" id="successMsg">✓ ¡Consulta enviada! Nos comunicamos a la brevedad.</div>
                 </form>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 Tolosa Soluciones. Todos los derechos reservados.</p>
-        <p style="margin-top: 0.5rem;">Servicios Integrales para tu Hogar y Empresa</p>
-    </footer>
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <a href="#inicio" class="logo" style="margin-bottom: 0;">
+                    <div class="logo-mark">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <span class="brand">TOLVAR</span>
+                        <span class="tagline">Ingeniería de Instalaciones S.A.S.</span>
+                    </div>
+                </a>
+                <p>Empresa especializada en instalaciones integrales para obras residenciales y comerciales en Córdoba Capital e Interior.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Servicios</h4>
+                <ul>
+                    <li>Gas Matriculado</li>
+                    <li>Electricidad</li>
+                    <li>Sanitarias</li>
+                    <li>Obras Integrales</li>
+                    <li>Exteriores</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contacto</h4>
+                <ul>
+                    <li>Tel: 351 861 4462</li>
+                    <li>Córdoba Capital e Interior</li>
+                    <li><a href="#contacto">Solicitar Presupuesto</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 TOLVAR Ingeniería de Instalaciones S.A.S.</p>
+            <p>Gas · Electricidad · Sanitarias · Obras Integrales</p>
+        </div>
+    </div>
+</footer>
 
-    <script>
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
+<!-- WHATSAPP FLOAT -->
+<div class="wa-float">
+    <a class="wa-btn" href="https://wa.me/5493518614462" target="_blank" aria-label="Contactar por WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+    </a>
+</div>
 
-        // Service cards animation on scroll
-        const observerOptions = {
-            threshold: 0.2,
-            rootMargin: '0px 0px -100px 0px'
-        };
+<script>
+    window.addEventListener('scroll', () => {
+        document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 40);
+    });
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, index) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('animate');
-                    }, index * 200);
-                }
-            });
-        }, observerOptions);
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const phone = document.getElementById('phone').value;
+        const tipo = document.getElementById('tipoObra').value;
+        const ubicacion = document.getElementById('ubicacion').value;
+        const mensaje = document.getElementById('mensaje').value;
+        const msg = `Hola! Me comunico desde la web de TOLVAR.%0A%0A*Tipo de obra:* ${tipo}%0A*Ubicación:* ${ubicacion}%0A*Teléfono:* ${phone}%0A%0A*Consulta:* ${mensaje}`;
+        document.getElementById('successMsg').classList.add('show');
+        setTimeout(() => {
+            window.open(`https://wa.me/5493518614462?text=${msg}`, '_blank');
+            this.reset();
+            setTimeout(() => document.getElementById('successMsg').classList.remove('show'), 5000);
+        }, 800);
+    });
 
-        document.querySelectorAll('.service-card').forEach(card => {
-            observer.observe(card);
-        });
-
-        // Form submission with WhatsApp integration
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const email = document.getElementById('email').value;
-            const service = document.getElementById('service').value;
-            const message = document.getElementById('message').value;
-            
-            // Create WhatsApp message
-            const whatsappMessage = `Hola! Me contacto desde la web.%0A%0A` +
-                `*Nombre:* ${name}%0A` +
-                `*Teléfono:* ${phone}%0A` +
-                `${email ? `*Email:* ${email}%0A` : ''}` +
-                `*Servicio:* ${service}%0A%0A` +
-                `*Mensaje:* ${message}`;
-            
-            // WhatsApp number (without + or spaces)
-            const whatsappNumber = '5493518071422';
-            
-            // Show success message
-            const successMsg = document.getElementById('successMessage');
-            successMsg.classList.add('show');
-            
-            // Redirect to WhatsApp after 1 second
-            setTimeout(() => {
-                window.open(`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`, '_blank');
-                
-                // Reset form
-                this.reset();
-                
-                // Hide success message after 5 seconds
-                setTimeout(() => {
-                    successMsg.classList.remove('show');
-                }, 5000);
-            }, 1000);
-        });
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
+    function toggleMenu() {}
+</script>
 </body>
 </html>
