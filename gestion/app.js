@@ -37,12 +37,136 @@ const lastWeeks = (ref, n) => { const a = range('semana', ref)[0]; const o = [];
 
 /* ═══════════════ Datos ═══════════════ */
 const EMPTY = () => ({ empleados: [], horas: [], herramientas: [], agenda: [], clientes: [], proveedores: [], presupuestos: [], trabajos: [], movimientos: [], vencimientos: [] });
-let S = load();
+const COLS = Object.keys(EMPTY());
+const CFG = window.TOLVAR_CONFIG || {};
+const WANT_REMOTE = !!(CFG.SUPABASE_URL && CFG.SUPABASE_ANON_KEY);
+const REMOTE = WANT_REMOTE && !!(window.supabase && window.supabase.createClient);
+const total = o => Object.values(o).reduce((a, v) => a + v.length, 0);
+const chunk = (a, n) => { const o = []; for (let i = 0; i < a.length; i += n) o.push(a.slice(i, i + n)); return o; };
+let S = REMOTE ? EMPTY() : load();
+let sb = null, snap = {}, inflight = 0, queue = Promise.resolve(), booted = false;
+
+/* Modo local: localStorage */
 function load() {
     try { const r = localStorage.getItem(KEY); return r ? Object.assign(EMPTY(), JSON.parse(r)) : EMPTY(); } catch (e) { return EMPTY(); }
 }
-function save() {
+function localSave() {
     try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('No se pudo guardar en este navegador. Hacé un respaldo.'); }
+}
+
+/* Modo nube: Supabase. save() envía solo lo que cambió respecto de la última foto (snap). */
+function save() {
+    if (!REMOTE) return localSave();
+    inflight++;
+    queue = queue.then(syncNow).catch(() => {}).finally(() => { inflight--; });
+}
+function takeSnap() { snap = {}; COLS.forEach(k => { snap[k] = new Map(S[k].map(x => [x.id, JSON.stringify(x)])); }); }
+async function syncNow() {
+    setStatus('saving');
+    try {
+        for (const k of COLS) {
+            const cur = new Map(S[k].map(x => [x.id, JSON.stringify(x)])), old = snap[k] || new Map();
+            const up = [], del = [];
+            cur.forEach((v, id) => { if (old.get(id) !== v) up.push({ id, data: JSON.parse(v) }); });
+            old.forEach((v, id) => { if (!cur.has(id)) del.push(id); });
+            for (const part of chunk(up, 400)) { const { error } = await sb.from('tolvar_' + k).upsert(part); if (error) throw error; }
+            for (const part of chunk(del, 200)) { const { error } = await sb.from('tolvar_' + k).delete().in('id', part); if (error) throw error; }
+            snap[k] = cur;
+        }
+        setStatus('ok');
+    } catch (e) {
+        console.error(e); setStatus('error');
+        toast('No se pudo guardar en la nube. Revisá la conexión y volvé a intentar.');
+        throw e;
+    }
+}
+async function fetchAll() {
+    const D = EMPTY();
+    for (const k of COLS) {
+        for (let from = 0; ; from += 1000) {
+            const { data, error } = await sb.from('tolvar_' + k).select('data').order('id').range(from, from + 999);
+            if (error) throw error;
+            data.forEach(r => D[k].push(r.data));
+            if (data.length < 1000) break;
+        }
+    }
+    return D;
+}
+const STATUS = { local: '💾 Modo local', loading: '… Cargando', saving: '… Guardando', ok: '☁ Sincronizado', error: '⚠ Sin conexión', '': '' };
+function setStatus(st) {
+    const b = $('#sync'); if (!b) return;
+    b.textContent = STATUS[st] || ''; b.className = 'btn btn-ghost ' + st; b.hidden = !st;
+    b.title = st === 'local' ? 'Los datos se guardan solo en este navegador. Configurá Supabase en config.js.' : 'Actualizar datos desde la nube';
+}
+function showLogin(msg) {
+    let el = $('#login');
+    if (!el) {
+        el = document.createElement('div'); el.id = 'login';
+        el.innerHTML = '<form class="login-card" id="loginForm"><img src="../logo.png" width="56" height="56" alt=""><h2>Sistema de gestión</h2><p>Ingresá con tu usuario.</p>'
+            + '<input type="email" name="email" placeholder="Email" required autocomplete="username"><input type="password" name="password" placeholder="Contraseña" required autocomplete="current-password">'
+            + '<div class="login-err" id="loginErr" role="alert"></div><button class="btn btn-primary" type="submit">Ingresar</button></form>';
+        document.body.appendChild(el);
+        $('#loginForm').addEventListener('submit', doLogin);
+    }
+    el.hidden = false; $('#loginErr').textContent = msg || ''; $('#btnLogout').hidden = true; setStatus('');
+}
+async function doLogin(ev) {
+    ev.preventDefault();
+    const f = ev.target, b = f.querySelector('button');
+    b.disabled = true; $('#loginErr').textContent = '';
+    const { error } = await sb.auth.signInWithPassword({ email: f.elements.email.value.trim(), password: f.elements.password.value });
+    b.disabled = false;
+    if (error) { $('#loginErr').textContent = 'Email o contraseña incorrectos.'; return; }
+    f.elements.password.value = '';
+    await bootRemote();
+}
+async function bootRemote() {
+    setStatus('loading');
+    try {
+        const { data: ok, error: e0 } = await sb.rpc('tolvar_autorizado');
+        if (e0) throw e0;
+        if (!ok) { await sb.auth.signOut(); showLogin('Tu usuario no está autorizado para usar el sistema.'); return; }
+        S = await fetchAll(); takeSnap();
+        migrarLocal();
+        const l = $('#login'); if (l) l.hidden = true;
+        $('#btnLogout').hidden = false; booted = true; setStatus('ok'); render();
+    } catch (e) {
+        console.error(e); setStatus('error');
+        showLogin('No se pudo conectar con la base de datos: ' + (e.message || e));
+    }
+}
+function migrarLocal() {
+    if (total(S) > 0 || localStorage.getItem(KEY + '_nomigrar')) return;
+    const L = load(), n = total(L);
+    if (!n) return;
+    if (confirm(`Hay ${n} registros guardados en este navegador (de antes de usar la base de datos). ¿Subirlos a la nube?`)) { S = L; save(); }
+    else localStorage.setItem(KEY + '_nomigrar', '1');
+}
+async function refresh(manual) {
+    if (!REMOTE || !booted) return;
+    if (inflight > 0 || $('#dlg').open) { if (manual) toast('Hay cambios guardándose; probá de nuevo en un momento.'); return; }
+    try {
+        setStatus('loading');
+        const D = await fetchAll();
+        if (inflight > 0) { setStatus('saving'); return; }
+        const cambio = JSON.stringify(D) !== JSON.stringify(S);
+        if (cambio) { S = D; takeSnap(); render(); }
+        setStatus('ok');
+        if (manual) toast(cambio ? 'Datos actualizados' : 'Ya tenés lo último');
+    } catch (e) { console.error(e); setStatus('error'); if (manual) toast('No se pudo actualizar.'); }
+}
+async function init() {
+    ui.view = location.hash.slice(1) || 'resumen';
+    if (WANT_REMOTE && !REMOTE) { $('#main').innerHTML = '<div class="panel"><h2>No se pudo cargar la librería de Supabase</h2><p class="hint">Revisá que exista <code>gestion/vendor/supabase.js</code>.</p></div>'; return; }
+    if (!REMOTE) { setStatus('local'); render(); return; }
+    sb = window.supabase.createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY, { auth: { persistSession: true, autoRefreshToken: true } });
+    setStatus('loading');
+    try {
+        const { data } = await sb.auth.getSession();
+        if (data && data.session) await bootRemote(); else showLogin();
+    } catch (e) { console.error(e); showLogin('No se pudo conectar con la base de datos.'); }
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
+    setInterval(() => { if (!document.hidden) refresh(); }, 60000);
 }
 const byId = (col, id) => S[col].find(x => x.id === id);
 const nm = (col, id) => { const x = id && byId(col, id); return x ? LBL[col](x) : ''; };
@@ -472,9 +596,12 @@ function vAlertas() {
 }
 
 function vDatos() {
-    const total = Object.values(S).reduce((a, v) => a + v.length, 0);
-    return head('Respaldo y datos', 'Los datos se guardan en este navegador y este dispositivo.')
-        + `<div class="panel"><h2>Importante</h2><p style="font-size:.9rem;line-height:1.55">Este sistema no usa servidor: lo que cargues queda guardado solo en este navegador (hoy: <b>${total}</b> registros). Si borrás los datos del navegador o cambiás de computadora, se pierden. Hacé un <b>respaldo</b> seguido y usá <b>Exportar a Excel</b> para el libro contable.</p></div>`
+    const n = total(S);
+    const info = REMOTE
+        ? `Los datos se guardan en tu base de datos <b>Supabase</b> y se ven desde cualquier navegador al iniciar sesión (hoy: <b>${n}</b> registros). Igual conviene bajar un <b>respaldo</b> de vez en cuando y usar <b>Exportar a Excel</b> para el libro contable.`
+        : `Estás en <b>modo local</b>: lo que cargues queda guardado solo en este navegador (hoy: <b>${n}</b> registros) y se pierde si se borran los datos del navegador. Para verlo desde cualquier dispositivo, completá <code>gestion/config.js</code> con los datos de Supabase (ver <code>LEEME.md</code>).`;
+    return head('Respaldo y datos', REMOTE ? 'Conectado a Supabase.' : 'Modo local (sin base de datos).')
+        + `<div class="panel"><h2>Dónde están los datos</h2><p style="font-size:.9rem;line-height:1.55">${info}</p></div>`
         + `<div class="panel"><h2>Acciones</h2><div class="head-actions">${btn('⬇ Descargar respaldo (JSON)', 'data-a="jsonexp"')}${btn('⬆ Restaurar respaldo', 'data-a="jsonimp"', 'btn-ghost')}${btn('Cargar datos de ejemplo', 'data-a="demo"', 'btn-ghost')}${btn('Borrar todo', 'data-a="wipe"', 'btn-danger')}</div><input type="file" id="fileImport" accept=".json,application/json" hidden></div>`;
 }
 
@@ -560,8 +687,17 @@ document.addEventListener('click', ev => {
     else if (a === 'hoy') { ui.ref = todayISO(); render(); }
     else if (a === 'jsonexp') download(new Blob([JSON.stringify(S, null, 2)], { type: 'application/json' }), `tolvar-respaldo-${todayISO()}.json`);
     else if (a === 'jsonimp') $('#fileImport').click();
-    else if (a === 'demo') { if (!S.movimientos.length || confirm('Esto reemplaza los datos actuales por datos de ejemplo. ¿Seguir?')) { S = demo(); save(); render(); toast('Datos de ejemplo cargados'); } }
-    else if (a === 'wipe') { if (confirm('¿Borrar TODOS los datos de este navegador? Descargá un respaldo antes si lo necesitás.')) { S = EMPTY(); save(); render(); toast('Datos borrados'); } }
+    else if (a === 'demo') {
+        if (REMOTE && total(S) > 0) { toast('Los datos de ejemplo solo se cargan con la base vacía.'); return; }
+        if (!REMOTE && S.movimientos.length && !confirm('Esto reemplaza los datos actuales por datos de ejemplo. ¿Seguir?')) return;
+        S = demo(); save(); render(); toast('Datos de ejemplo cargados');
+    }
+    else if (a === 'wipe') {
+        const ok = REMOTE ? (prompt('Esto borra TODOS los datos de la nube para todos los usuarios.\nEscribí BORRAR para confirmar:') || '').trim() === 'BORRAR' : confirm('¿Borrar TODOS los datos de este navegador? Descargá un respaldo antes si lo necesitás.');
+        if (ok) { S = EMPTY(); save(); render(); toast('Datos borrados'); }
+    }
+    else if (a === 'refresh') refresh(true);
+    else if (a === 'logout') { if (REMOTE) sb.auth.signOut().then(() => { S = EMPTY(); snap = {}; booted = false; $('#main').innerHTML = ''; showLogin(); }); }
 });
 document.addEventListener('change', ev => {
     const t = ev.target;
@@ -574,7 +710,7 @@ document.addEventListener('change', ev => {
                 const o = JSON.parse(rd.result), n = EMPTY();
                 if (!o || typeof o !== 'object') throw new Error();
                 Object.keys(n).forEach(k => { if (Array.isArray(o[k])) n[k] = o[k]; });
-                if (confirm('Esto reemplaza los datos actuales por los del respaldo. ¿Seguir?')) { S = n; save(); render(); toast('Respaldo restaurado'); }
+                if (confirm(REMOTE ? 'Esto reemplaza los datos de la NUBE por los del respaldo, para todos los usuarios. ¿Seguir?' : 'Esto reemplaza los datos actuales por los del respaldo. ¿Seguir?')) { S = n; save(); render(); toast('Respaldo restaurado'); }
             } catch (e) { toast('El archivo no es un respaldo válido'); }
         };
         rd.readAsText(t.files[0]); t.value = '';
@@ -805,6 +941,5 @@ function demo() {
 }
 
 /* ═══════════════ Inicio ═══════════════ */
-ui.view = location.hash.slice(1) || 'resumen';
-render();
+init();
 })();
