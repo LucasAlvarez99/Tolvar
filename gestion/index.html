@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#152d4a">
+    <title>TOLVAR | Sistema de Gestión</title>
+    <link rel="icon" href="../favicon.ico" sizes="48x48">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="top">
+        <a class="brand" href="#resumen">
+            <img src="../logo.png" alt="Tolvar" width="38" height="38">
+            <span><b>TOLVAR</b><small>Sistema de gestión</small></span>
+        </a>
+        <div class="top-actions">
+            <button class="btn btn-ghost" id="btnMenu" aria-label="Menú">☰</button>
+            <button class="btn btn-primary" id="btnExcel">⬇ Exportar a Excel</button>
+        </div>
+    </header>
+
+    <div class="layout">
+        <nav id="side" aria-label="Módulos"></nav>
+        <main id="main"></main>
+    </div>
+
+    <dialog id="dlg">
+        <form method="dialog" id="dlgForm" autocomplete="off">
+            <h3 id="dlgTitle"></h3>
+            <div id="dlgBody" class="form-grid"></div>
+            <div class="dlg-actions">
+                <button type="button" class="btn btn-ghost" id="dlgCancel">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" hidden></div>
+    <noscript><p style="padding:2rem">Este sistema necesita JavaScript.</p></noscript>
+
+    <script src="vendor/chart.umd.js"></script>
+    <script src="vendor/exceljs.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
