@@ -45,6 +45,9 @@ const total = o => Object.values(o).reduce((a, v) => a + v.length, 0);
 const chunk = (a, n) => { const o = []; for (let i = 0; i < a.length; i += n) o.push(a.slice(i, i + n)); return o; };
 let S = REMOTE ? EMPTY() : load();
 let sb = null, snap = {}, inflight = 0, queue = Promise.resolve(), booted = false;
+const IDLE_MIN = Number(CFG.INACTIVITY_MINUTES) > 0 ? Number(CFG.INACTIVITY_MINUTES) : 10;   // minutos sin actividad antes de cerrar sesión
+const IDLE_MS = IDLE_MIN * 60000, WARN_MS = 60000;
+let lastActive = Date.now(), idleTimer = null, warned = false;
 
 /* Modo local: localStorage */
 function load() {
@@ -118,6 +121,7 @@ async function doLogin(ev) {
     b.disabled = false;
     if (error) { $('#loginErr').textContent = 'Email o contraseña incorrectos.'; return; }
     f.elements.password.value = '';
+    touchActive();
     await bootRemote();
 }
 async function bootRemote() {
@@ -129,7 +133,7 @@ async function bootRemote() {
         S = await fetchAll(); takeSnap();
         migrarLocal();
         const l = $('#login'); if (l) l.hidden = true;
-        $('#btnLogout').hidden = false; booted = true; setStatus('ok'); render();
+        $('#btnLogout').hidden = false; booted = true; startIdle(); setStatus('ok'); render();
     } catch (e) {
         console.error(e); setStatus('error');
         showLogin('No se pudo conectar con la base de datos: ' + (e.message || e));
@@ -155,6 +159,39 @@ async function refresh(manual) {
         if (manual) toast(cambio ? 'Datos actualizados' : 'Ya tenés lo último');
     } catch (e) { console.error(e); setStatus('error'); if (manual) toast('No se pudo actualizar.'); }
 }
+/* Cierre de sesión por inactividad (solo con base de datos: en modo local no hay sesión) */
+const LAST_KEY = 'tolvar_ultima_actividad';
+let lastSaved = 0;
+function touchActive() {
+    lastActive = Date.now(); warned = false;
+    if (lastActive - lastSaved > 5000) { lastSaved = lastActive; try { localStorage.setItem(LAST_KEY, String(lastActive)); } catch (e) { /* sin storage */ } }
+}
+/* ¿Pasó más tiempo que el permitido desde la última actividad (aunque el navegador se haya cerrado)? */
+function sesionVencida() {
+    try { const t = Number(localStorage.getItem(LAST_KEY)); return t > 0 && Date.now() - t > IDLE_MS; } catch (e) { return false; }
+}
+function idleCheck() {
+    if (!booted) return;
+    const idle = Date.now() - lastActive;
+    if (idle >= IDLE_MS) return logout(`Cerramos tu sesión por ${IDLE_MIN} minutos sin actividad. Volvé a ingresar.`);
+    if (idle >= IDLE_MS - WARN_MS && !warned) { warned = true; toast('Tu sesión se cerrará en 1 minuto por inactividad. Tocá la pantalla para seguir.'); }
+}
+async function logout(msg) {
+    if (!REMOTE) return;
+    booted = false; clearInterval(idleTimer);
+    try { await queue; } catch (e) { /* si algo falló al guardar, igual se cierra la sesión */ }
+    try { await sb.auth.signOut(); } catch (e) { /* sin red: igual se limpia la pantalla */ }
+    const dlg = $('#dlg'); if (dlg && dlg.open) dlg.close();
+    S = EMPTY(); snap = {}; $('#main').innerHTML = ''; $('#side').innerHTML = '';
+    showLogin(msg);
+}
+function startIdle() {
+    touchActive(); clearInterval(idleTimer);
+    idleTimer = setInterval(idleCheck, 15000);
+}
+['pointerdown', 'keydown', 'wheel', 'touchstart', 'scroll'].forEach(ev => document.addEventListener(ev, touchActive, { passive: true, capture: true }));
+document.addEventListener('visibilitychange', () => { if (!document.hidden) idleCheck(); });
+
 async function init() {
     ui.view = location.hash.slice(1) || 'resumen';
     if (WANT_REMOTE && !REMOTE) { $('#main').innerHTML = '<div class="panel"><h2>No se pudo cargar la librería de Supabase</h2><p class="hint">Revisá que exista <code>gestion/vendor/supabase.js</code>.</p></div>'; return; }
@@ -163,7 +200,8 @@ async function init() {
     setStatus('loading');
     try {
         const { data } = await sb.auth.getSession();
-        if (data && data.session) await bootRemote(); else showLogin();
+        if (data && data.session && sesionVencida()) { await sb.auth.signOut(); showLogin(`Cerramos tu sesión por más de ${IDLE_MIN} minutos sin actividad. Volvé a ingresar.`); }
+        else if (data && data.session) await bootRemote(); else showLogin();
     } catch (e) { console.error(e); showLogin('No se pudo conectar con la base de datos.'); }
     document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
     setInterval(() => { if (!document.hidden) refresh(); }, 60000);
@@ -697,7 +735,7 @@ document.addEventListener('click', ev => {
         if (ok) { S = EMPTY(); save(); render(); toast('Datos borrados'); }
     }
     else if (a === 'refresh') refresh(true);
-    else if (a === 'logout') { if (REMOTE) sb.auth.signOut().then(() => { S = EMPTY(); snap = {}; booted = false; $('#main').innerHTML = ''; showLogin(); }); }
+    else if (a === 'logout') logout();
 });
 document.addEventListener('change', ev => {
     const t = ev.target;
