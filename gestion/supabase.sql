@@ -29,6 +29,7 @@ grant execute on function public.tolvar_autorizado() to authenticated;
 create or replace function public.tolvar_touch()
 returns trigger
 language plpgsql
+set search_path = public
 as $$
 begin
     new.updated_at = now();
@@ -65,5 +66,17 @@ begin
     end loop;
 end $$;
 
--- 5) AUTORIZAR TU USUARIO (cambiá el email por el tuyo y ejecutá esta línea)
+-- 5) Ping para UptimeRobot: mantiene el proyecto "despierto" (el plan gratis pausa tras 1 semana sin actividad).
+--    Es pública a propósito: no lee ninguna tabla ni devuelve datos, solo confirma que la base responde.
+create or replace function public.tolvar_ping()
+returns jsonb
+language sql stable security invoker
+set search_path = public
+as $$
+    select jsonb_build_object('ok', true, 'hora', now());
+$$;
+revoke all on function public.tolvar_ping() from public;
+grant execute on function public.tolvar_ping() to anon, authenticated;
+
+-- 6) AUTORIZAR TU USUARIO (cambiá el email por el tuyo y ejecutá esta línea)
 -- insert into public.tolvar_usuarios (email) values ('tu-email@ejemplo.com') on conflict do nothing;
