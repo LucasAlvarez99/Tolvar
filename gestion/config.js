@@ -6,6 +6,6 @@
  * NUNCA pegues acá la clave "service_role".
  */
 window.TOLVAR_CONFIG = {
-    SUPABASE_URL: '',
-    SUPABASE_ANON_KEY: ''
+    SUPABASE_URL: 'https://oamlzwynepmlrovcofud.supabase.co',
+    SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9hbWx6d3luZXBtbHJvdmNvZnVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3MTkzMTgsImV4cCI6MjEwODI5NTMxOH0.kcaQZ8kRUVVUtwCJSQjdo6evzlKjPT2r2SZKZJZrs-c'
 };
